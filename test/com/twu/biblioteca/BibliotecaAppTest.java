@@ -6,7 +6,7 @@ import org.junit.Test;
 public class BibliotecaAppTest {
 
     @Test(expected = RuntimeException.class)
-    public void test() {
+    public void testNotifyInvalidOption() {
         BibliotecaApp.notifyInvalidOption();
     }
 }

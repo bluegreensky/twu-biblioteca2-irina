@@ -4,19 +4,23 @@ import java.util.Scanner;
 
 public class BibliotecaApp {
 
-    public static void main(String[] args) {
+    private static Library library = new Library();
+    private static Scanner scanner = new Scanner(System.in);
 
-        try (Scanner scanner = new Scanner(System.in)) {
+    public static void main(String[] args) {
+        System.out.println("Welcome to Biblioteca. Your one-stop-shop for great book titles in Bangalore!");
             do {
                 System.out.println("Main menu");
                 System.out.println("1. List of books");
-                System.out.println("2. Quit the application");
+                System.out.println("2. Check out a book");
+                System.out.println("3. Quit the application");
                 System.out.print("Please select an option: ");
                 String response = scanner.nextLine();
 
                 switch (response) {
                     case "1": listBooks(); break;
-                    case "2": System.exit(0);
+                    case "2": checkOutBook(); break;
+                    case "3": System.exit(0);
                     default:    try{
                                  notifyInvalidOption();
                                 } catch (RuntimeException e) {
@@ -25,15 +29,19 @@ public class BibliotecaApp {
                 }
 
             } while (true);
-        }
     }
 
     private static void listBooks() {
-        System.out.println("Welcome to Biblioteca. Your one-stop-shop for great book titles in Bangalore!");
-        System.out.println(new Library());
+        System.out.println(library);
     }
 
     static void notifyInvalidOption() {
         throw new RuntimeException("Please select a valid option!");
+    }
+
+    private static void checkOutBook() {
+        System.out.print("Please enter the book isbn you want to check out: ");
+        String isbn = scanner.nextLine();
+        library.checkOutBook(isbn);
     }
 }
