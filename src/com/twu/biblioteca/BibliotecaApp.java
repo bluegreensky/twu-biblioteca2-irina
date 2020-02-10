@@ -21,6 +21,8 @@ public class BibliotecaApp {
                     case "1":   listBooks(); break;
                     case "2":   if(checkOutBook()) {
                                     System.out.println("Thank you! Enjoy the book.");
+                                } else {
+                                    System.out.println("Sorry, that book is not available.");
                                 }
                                 break;
                     case "3": System.exit(0);
