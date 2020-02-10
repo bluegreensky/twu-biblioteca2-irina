@@ -15,7 +15,12 @@ public class BibliotecaApp {
 
                 switch (response) {
                     case "1": listBooks(); break;
-                    default: System.exit(0);
+                    default:    try{
+                                 notifyInvalidOption();
+                                } catch (RuntimeException e) {
+                                  System.out.println(e.getMessage());
+                                }
+                                System.exit(0);
                 }
 
             } while (true);
@@ -25,5 +30,9 @@ public class BibliotecaApp {
     private static void listBooks() {
         System.out.println("Welcome to Biblioteca. Your one-stop-shop for great book titles in Bangalore!");
         System.out.println(new Library());
+    }
+
+    static void notifyInvalidOption() {
+        throw new RuntimeException("Please select a valid option!");
     }
 }
