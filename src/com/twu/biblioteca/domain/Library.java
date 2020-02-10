@@ -35,7 +35,7 @@ public class Library {
         return "Library{" + newLine + result + newLine + "}";
     }
 
-    public void checkOutBook(String isbn) {
+    public boolean checkOutBook(String isbn) {
         Collection<Book> listOfBooksWithSameIsbn = books.stream()
                                             .filter(book -> book.getIsbn().equals(isbn))
                                             .collect(Collectors.toList());
@@ -45,8 +45,10 @@ public class Library {
                                                                     .findAny();
             if(optionalBook.isPresent()){
                 Book bookToCheckOut = optionalBook.get();
-               bookToCheckOut.setCheckedOut(true);
+                bookToCheckOut.setCheckedOut(true);
+                return true;
             }
         }
+        return false;
     }
 }

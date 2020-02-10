@@ -18,8 +18,11 @@ public class BibliotecaApp {
                 String response = scanner.nextLine();
 
                 switch (response) {
-                    case "1": listBooks(); break;
-                    case "2": checkOutBook(); break;
+                    case "1":   listBooks(); break;
+                    case "2":   if(checkOutBook()) {
+                                    System.out.println("Thank you! Enjoy the book.");
+                                }
+                                break;
                     case "3": System.exit(0);
                     default:    try{
                                  notifyInvalidOption();
@@ -39,9 +42,9 @@ public class BibliotecaApp {
         throw new RuntimeException("Please select a valid option!");
     }
 
-    private static void checkOutBook() {
+    private static boolean checkOutBook() {
         System.out.print("Please enter the book isbn you want to check out: ");
         String isbn = scanner.nextLine();
-        library.checkOutBook(isbn);
+        return library.checkOutBook(isbn);
     }
 }
