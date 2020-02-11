@@ -22,12 +22,16 @@ public class BibliotecaApp {
                     case "2":   if(checkOutBook()) {
                                     System.out.println("Thank you! Enjoy the book.");
                                 } else {
-                                    System.out.println("Sorry, that book is not available.");
+                                    try{
+                                        unsuccessfulBookCheckOut();
+                                    } catch (RuntimeException e) {
+                                        System.out.println(e.getMessage());
+                                    }
                                 }
                                 break;
                     case "3": System.exit(0);
                     default:    try{
-                                 notifyInvalidOption();
+                                 invalidOption();
                                 } catch (RuntimeException e) {
                                   System.out.println(e.getMessage());
                                 }
@@ -40,7 +44,7 @@ public class BibliotecaApp {
         System.out.println(library);
     }
 
-    static void notifyInvalidOption() {
+    static void invalidOption() {
         throw new RuntimeException("Please select a valid option!");
     }
 
@@ -48,5 +52,9 @@ public class BibliotecaApp {
         System.out.print("Please enter the book isbn you want to check out: ");
         String isbn = scanner.nextLine();
         return library.checkOutBook(isbn);
+    }
+
+    static void unsuccessfulBookCheckOut() {
+        throw new RuntimeException("Sorry, that book is not available.");
     }
 }
