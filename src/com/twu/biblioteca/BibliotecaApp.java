@@ -23,7 +23,7 @@ public class BibliotecaApp {
                     case "2":   if(checkOutBook()) {
                                     System.out.println("Thank you! Enjoy the book.");
                                 } else {
-                                    try{
+                                    try {
                                         unsuccessfulBookCheckOut();
                                     } catch (RuntimeException e) {
                                         System.out.println(e.getMessage());
@@ -32,10 +32,16 @@ public class BibliotecaApp {
                                 break;
                     case "3":   if(returnBook()) {
                                     System.out.println("Thank you for returning the book!");
+                                } else {
+                                    try {
+                                        unsuccessfulBookReturn();
+                                    } catch (RuntimeException e) {
+                                        System.out.println(e.getMessage());
+                                    }
                                 }
                                 break;
                     case "4": System.exit(0);
-                    default:    try{
+                    default:    try {
                                  invalidOption();
                                 } catch (RuntimeException e) {
                                   System.out.println(e.getMessage());
@@ -67,5 +73,9 @@ public class BibliotecaApp {
         System.out.print("Please enter the book isbn you want to return: ");
         String isbn = scanner.nextLine();
         return library.returnBook(isbn);
+    }
+
+    static void unsuccessfulBookReturn() {
+        throw new RuntimeException("That is not a valid book to return.");
     }
 }
