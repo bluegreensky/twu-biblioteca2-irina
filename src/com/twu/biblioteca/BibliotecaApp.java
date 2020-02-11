@@ -30,7 +30,9 @@ public class BibliotecaApp {
                                     }
                                 }
                                 break;
-                    case "3":   returnBook();
+                    case "3":   if(returnBook()) {
+                                    System.out.println("Thank you for returning the book!");
+                                }
                                 break;
                     case "4": System.exit(0);
                     default:    try{
