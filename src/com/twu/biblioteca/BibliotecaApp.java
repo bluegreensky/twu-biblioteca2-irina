@@ -37,9 +37,10 @@ public class BibliotecaApp {
             System.out.println("3. Return a book");
             System.out.println("4. List of movies");
             System.out.println("5. Checkout a movie");
-            System.out.println("6. Quit the application");
+            System.out.println("6. View my information");
+            System.out.println("7. Quit the application");
             if(currentUser.isLibrarian()) {
-                System.out.println("7. View books checked out");
+                System.out.println("8. View books checked out");
             }
             System.out.print("Please select an option: ");
             String response = scanner.nextLine();
@@ -78,8 +79,10 @@ public class BibliotecaApp {
                     }
                 }
                     break;
-                case "6":   System.exit(0);
-                case "7":   if(currentUser.isLibrarian()) {
+                case "6":   viewMyInformation(currentUser);
+                            break;
+                case "7":   System.exit(0);
+                case "8":   if(currentUser.isLibrarian()) {
                                 viewBooksCheckedOut();
                                 break;
                             }
@@ -91,6 +94,12 @@ public class BibliotecaApp {
             }
 
         } while (true);
+    }
+
+    private static void viewMyInformation(User currentUser) {
+        System.out.println("Name: " + currentUser.getName());
+        System.out.println("Email: " + currentUser.getEmail());
+        System.out.println("Phone number: " + currentUser.getPhoneNumber());
     }
 
     private static void viewBooksCheckedOut() {

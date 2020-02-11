@@ -15,7 +15,7 @@ public class LibraryTest {
     @Test
     public void testCheckOutBookWhenInLibrary() {
         Book book = library.getBooks().get(0);
-        User user = new User("100-0002", "abc", false);
+        User user = new User("100-0002", "abc", false, "Sam", "sam@yahoo.com", "222-222-2222");
         library.checkOutBook("0679732187", user);
         assertTrue(book.isCheckedOut());
     }

@@ -27,10 +27,10 @@ public class Library {
         movies.add(new Movie("Wall-E", 2008, "Andrew Stanton", Movie.Rating.TEN, true));
         movies.add(new Movie("Wall-E", 2008, "Andrew Stanton", Movie.Rating.TEN, true));
 
-        users.add(new User("100-0001", "123", true));
-        users.add(new User("100-0002", "abc", false));
-        users.add(new User("100-0003", "xyz", false));
-        users.add(new User("100-0004", "pass", false));
+        users.add(new User("100-0001", "123", true, "Dan", "dan@gmail.com", "111-111-1111"));
+        users.add(new User("100-0002", "abc", false, "Sam", "sam@yahoo.com", "222-222-2222"));
+        users.add(new User("100-0003", "xyz", false, "Lucy", "lucy@gmail.com", "333-333-3333"));
+        users.add(new User("100-0004", "pass", false, "Mike", "mike@yahoo.com", "444-444-4444"));
 
         // Populate userBooksMap
         for (User user : users) {
@@ -121,6 +121,10 @@ public class Library {
     }
 
     public void viewBooksCheckedOut() {
-        userBooksMap.forEach((user, userCheckedOutBooks) -> System.out.println(user + newLine + userCheckedOutBooks));
+        userBooksMap.forEach((user, userCheckedOutBooks) ->
+                System.out.println("User library number: " + user.getLibraryNumber()
+                        + newLine
+                        + "Checked out books: " + userCheckedOutBooks
+                        + newLine));
     }
 }

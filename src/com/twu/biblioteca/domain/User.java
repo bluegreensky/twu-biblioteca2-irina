@@ -6,11 +6,17 @@ public class User {
     private String libraryNumber;
     private String password;
     private boolean isLibrarian;
+    private String name;
+    private String email;
+    private String phoneNumber;
 
-    public User(String libraryNumber, String password, boolean isLibrarian) {
+    public User(String libraryNumber, String password, boolean isLibrarian, String name, String email, String phoneNumber) {
         setLibraryNumber(libraryNumber); // Verify correct format
         this.password = password;
         this.isLibrarian = isLibrarian;
+        this.name = name;
+        this.email = email;
+        this.phoneNumber = phoneNumber;
     }
 
     public String getLibraryNumber() {
@@ -39,15 +45,20 @@ public class User {
         return Objects.equals(libraryNumber, user.libraryNumber);
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(libraryNumber);
+    public String getName() {
+        return name;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
     }
 
     @Override
-    public String toString() {
-        return "User{" +
-                "libraryNumber = '" + libraryNumber + '\'' +
-                '}';
+    public int hashCode() {
+        return Objects.hash(libraryNumber);
     }
 }
