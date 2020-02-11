@@ -1,9 +1,6 @@
 package com.twu.biblioteca.domain;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class Library {
@@ -12,6 +9,8 @@ public class Library {
 
     private List<Book> books = new ArrayList<>();
     private List<Movie> movies = new ArrayList<>();
+    private List<User> users = new ArrayList<>();
+    private Map<User, List<Book>> userBooksMap = new HashMap<>();
 
     public Library() {
         books.add(new Book(1,"0679732187","ABSALOM, ABSALOM!", "ERNEST HEMINGWAY", 1926, false));
@@ -27,6 +26,16 @@ public class Library {
         movies.add(new Movie("Reservoir Dogs", 1992, "Quentin Tarantino", Movie.Rating.UNRATED, false));
         movies.add(new Movie("Wall-E", 2008, "Andrew Stanton", Movie.Rating.TEN, true));
         movies.add(new Movie("Wall-E", 2008, "Andrew Stanton", Movie.Rating.TEN, true));
+
+        users.add(new User("100-0001", "123", true));
+        users.add(new User("100-0002", "abc", false));
+        users.add(new User("100-0003", "xyz", false));
+        users.add(new User("100-0004", "pass", false));
+
+        // Populate userBooksMap
+        for (User user : users) {
+            userBooksMap.put(user, new ArrayList<>());
+        }
     }
 
     public List<Book> getBooks() {
@@ -45,7 +54,7 @@ public class Library {
         System.out.println("Library{" + newLine + result + newLine + "}");
     }
 
-    public boolean checkOutBook(String isbn) {
+    public boolean checkOutBook(String isbn, User currentUser) {
         Collection<Book> listOfBooksWithThisIsbn = getListOfBooksWithThisIsbn(isbn);
         if(listOfBooksWithThisIsbn.size() != 0) {
             Optional<Book> optionalBook = listOfBooksWithThisIsbn.stream() // Find any unchecked book
@@ -54,6 +63,8 @@ public class Library {
             if(optionalBook.isPresent()){
                 Book bookToCheckOut = optionalBook.get();
                 bookToCheckOut.setCheckedOut(true);
+                List<Book> currentUserCheckedOutBooks = userBooksMap.get(currentUser);
+                currentUserCheckedOutBooks.add(bookToCheckOut);
                 return true; // We checked out the book!
             }
         }
@@ -100,5 +111,16 @@ public class Library {
         return movies.stream()
                 .filter(movie -> movie.getName().equals(name))
                 .collect(Collectors.toList());
+    }
+
+    public Optional<User> findUser(String libraryNumber, String password) {
+        return users.stream()
+                .filter(user -> user.getLibraryNumber().equals(libraryNumber))
+                .filter(user -> user.getPassword().equals(password))
+                .findAny();
+    }
+
+    public void viewBooksCheckedOut() {
+        userBooksMap.forEach((user, userCheckedOutBooks) -> System.out.println(user + newLine + userCheckedOutBooks));
     }
 }

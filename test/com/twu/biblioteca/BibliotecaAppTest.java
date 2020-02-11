@@ -24,4 +24,11 @@ public class BibliotecaAppTest {
     public void testUnsuccessfulMovieCheckOut() {
         BibliotecaApp.unsuccessfulMovieCheckOut();
     }
+
+    @Test(expected = RuntimeException.class)
+    public void testLogin() {
+        String libraryNumber = "000";
+        String password = "000";
+        BibliotecaApp.login(libraryNumber, password);
+    }
 }
