@@ -36,19 +36,38 @@ public class Library {
     }
 
     public boolean checkOutBook(String isbn) {
-        Collection<Book> listOfBooksWithSameIsbn = books.stream()
-                                            .filter(book -> book.getIsbn().equals(isbn))
-                                            .collect(Collectors.toList());
-        if(listOfBooksWithSameIsbn.size() != 0) {
-            Optional<Book> optionalBook = listOfBooksWithSameIsbn.stream()
+        Collection<Book> listOfBooksWithThisIsbn = getListOfBooksWithThisIsbn(isbn);
+        if(listOfBooksWithThisIsbn.size() != 0) {
+            Optional<Book> optionalBook = listOfBooksWithThisIsbn.stream() // Find any unchecked book
                                                                     .filter(book -> !book.isCheckedOut())
                                                                     .findAny();
             if(optionalBook.isPresent()){
                 Book bookToCheckOut = optionalBook.get();
                 bookToCheckOut.setCheckedOut(true);
-                return true;
+                return true; // We checked out the book!
             }
         }
         return false;
+    }
+
+    public boolean returnBook(String isbn) {
+        Collection<Book> listOfBooksWithThisIsbn = getListOfBooksWithThisIsbn(isbn);
+        if(listOfBooksWithThisIsbn.size() != 0) {
+            Optional<Book> optionalBook = listOfBooksWithThisIsbn.stream() // Find any checked out book
+                                                                    .filter(book -> book.isCheckedOut())
+                                                                    .findAny();
+            if(optionalBook.isPresent()){
+                Book bookToReturn = optionalBook.get();
+                bookToReturn.setCheckedOut(false);
+                return true; // We returned the book!
+            }
+        }
+        return false;
+    }
+
+    private List<Book> getListOfBooksWithThisIsbn(String isbn) {
+        return books.stream()
+                .filter(book -> book.getIsbn().equals(isbn))
+                .collect(Collectors.toList());
     }
 }

@@ -18,4 +18,11 @@ public class LibraryTest {
         assertTrue(book.isCheckedOut());
     }
 
+    @Test
+    public void testReturnBook() {
+        Book book = library.getBooks().get(6);
+        library.returnBook("11");
+        assertFalse(book.isCheckedOut());
+    }
+
 }

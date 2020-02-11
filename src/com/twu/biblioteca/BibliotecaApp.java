@@ -13,7 +13,8 @@ public class BibliotecaApp {
                 System.out.println("Main menu");
                 System.out.println("1. List of books");
                 System.out.println("2. Check out a book");
-                System.out.println("3. Quit the application");
+                System.out.println("3. Return a book");
+                System.out.println("4. Quit the application");
                 System.out.print("Please select an option: ");
                 String response = scanner.nextLine();
 
@@ -29,7 +30,9 @@ public class BibliotecaApp {
                                     }
                                 }
                                 break;
-                    case "3": System.exit(0);
+                    case "3":   returnBook();
+                                break;
+                    case "4": System.exit(0);
                     default:    try{
                                  invalidOption();
                                 } catch (RuntimeException e) {
@@ -56,5 +59,11 @@ public class BibliotecaApp {
 
     static void unsuccessfulBookCheckOut() {
         throw new RuntimeException("Sorry, that book is not available.");
+    }
+
+    private static boolean returnBook() {
+        System.out.print("Please enter the book isbn you want to return: ");
+        String isbn = scanner.nextLine();
+        return library.returnBook(isbn);
     }
 }

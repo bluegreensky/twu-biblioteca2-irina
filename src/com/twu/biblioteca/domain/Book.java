@@ -1,7 +1,5 @@
 package com.twu.biblioteca.domain;
 
-import java.util.Objects;
-
 public class Book {
     private int id;
     private String isbn;
