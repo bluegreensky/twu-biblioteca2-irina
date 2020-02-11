@@ -1,5 +1,9 @@
 package com.twu.biblioteca;
+import com.twu.biblioteca.domain.Book;
 import com.twu.biblioteca.domain.Library;
+import com.twu.biblioteca.domain.Movie;
+
+import java.util.List;
 import java.util.Scanner;
 
 public class BibliotecaApp {
@@ -14,7 +18,8 @@ public class BibliotecaApp {
                 System.out.println("1. List of books");
                 System.out.println("2. Check out a book");
                 System.out.println("3. Return a book");
-                System.out.println("4. Quit the application");
+                System.out.println("4. List of movies");
+                System.out.println("5. Quit the application");
                 System.out.print("Please select an option: ");
                 String response = scanner.nextLine();
 
@@ -40,7 +45,9 @@ public class BibliotecaApp {
                                     }
                                 }
                                 break;
-                    case "4": System.exit(0);
+                    case "4":   listMovies();
+                                break;
+                    case "5": System.exit(0);
                     default:    try {
                                  invalidOption();
                                 } catch (RuntimeException e) {
@@ -52,7 +59,8 @@ public class BibliotecaApp {
     }
 
     private static void listBooks() {
-        System.out.println(library);
+        List<Book> books = library.getBooks();
+        library.list(books);
     }
 
     static void invalidOption() {
@@ -77,5 +85,10 @@ public class BibliotecaApp {
 
     static void unsuccessfulBookReturn() {
         throw new RuntimeException("That is not a valid book to return.");
+    }
+
+    private static void listMovies() {
+        List<Movie> movies = library.getMovies();
+        library.list(movies);
     }
 }

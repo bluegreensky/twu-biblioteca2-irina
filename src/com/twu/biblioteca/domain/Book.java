@@ -1,12 +1,11 @@
 package com.twu.biblioteca.domain;
 
-public class Book {
+public class Book extends Item {
     private int id;
     private String isbn;
     private String title;
     private String author;
     private int yearPublished;
-    private boolean checkedOut;
 
     public Book(int id, String isbn, String title, String author, int yearPublished, boolean checkedOut) {
         this.id = id;
@@ -19,14 +18,6 @@ public class Book {
 
     public String getIsbn() {
         return isbn;
-    }
-
-    public boolean isCheckedOut() {
-        return checkedOut;
-    }
-
-    public void setCheckedOut(boolean checkedOut) {
-        this.checkedOut = checkedOut;
     }
 
     @Override

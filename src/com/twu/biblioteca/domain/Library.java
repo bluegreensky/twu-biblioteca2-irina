@@ -11,6 +11,7 @@ public class Library {
     private static final String newLine = System.getProperty("line.separator");
 
     private List<Book> books = new ArrayList<>();
+    private List<Movie> movies = new ArrayList<>();
 
     public Library() {
         books.add(new Book(1,"0679732187","ABSALOM, ABSALOM!", "ERNEST HEMINGWAY", 1926, false));
@@ -20,19 +21,27 @@ public class Library {
         books.add(new Book(5,"0195145739","THE SUN ALSO RISES", "LOIS LOWRY",1989, false));
         books.add(new Book(6,"0195145739","THE SUN ALSO RISES", "LOIS LOWRY",1989, false));
         books.add(new Book(7,"11", "Mock", "Anonymus", 2005, true));
+
+        movies.add(new Movie("The Seven Samurai", 1954, "Akira Kurosawa", Movie.Rating.EIGHT, false));
+        movies.add(new Movie("Bonnie and Clyde", 1967, "Arthur Penn", Movie.Rating.SEVEN, false));
+        movies.add(new Movie("Reservoir Dogs", 1992, "Quentin Tarantino", Movie.Rating.UNRATED, false));
+        movies.add(new Movie("Wall-E", 2008, "Andrew Stanton", Movie.Rating.TEN, true));
     }
 
     public List<Book> getBooks() {
         return books;
     }
 
-    @Override
-    public String toString() {
-        String result = books.stream()
-                .filter(book -> !book.isCheckedOut())
-                .map(Book::toString)
+    public List<Movie> getMovies() {
+        return movies;
+    }
+
+    public void list(List<? extends Item> items) {
+        String result = items.stream()
+                .filter(item -> !item.isCheckedOut())
+                .map(Item::toString)
                 .collect(Collectors.joining("; " + newLine));
-        return "Library{" + newLine + result + newLine + "}";
+        System.out.println("Library{" + newLine + result + newLine + "}");
     }
 
     public boolean checkOutBook(String isbn) {
