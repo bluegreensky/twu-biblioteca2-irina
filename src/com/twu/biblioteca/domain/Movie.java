@@ -19,6 +19,10 @@ public class Movie extends Item {
         this.checkedOut = checkedOut;
     }
 
+    public String getName() {
+        return name;
+    }
+
     @Override
     public String toString() {
         return "Movie{" +

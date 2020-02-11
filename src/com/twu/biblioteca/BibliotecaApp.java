@@ -16,10 +16,11 @@ public class BibliotecaApp {
             do {
                 System.out.println("Main menu");
                 System.out.println("1. List of books");
-                System.out.println("2. Check out a book");
+                System.out.println("2. Checkout a book");
                 System.out.println("3. Return a book");
                 System.out.println("4. List of movies");
-                System.out.println("5. Quit the application");
+                System.out.println("5. Checkout a movie");
+                System.out.println("6. Quit the application");
                 System.out.print("Please select an option: ");
                 String response = scanner.nextLine();
 
@@ -47,7 +48,17 @@ public class BibliotecaApp {
                                 break;
                     case "4":   listMovies();
                                 break;
-                    case "5": System.exit(0);
+                    case "5":   if(checkOutMovie()) {
+                                    System.out.println("Thank you! Enjoy the movie.");
+                                } else {
+                                    try {
+                                        unsuccessfulMovieCheckOut();
+                                    } catch (RuntimeException e) {
+                                        System.out.println(e.getMessage());
+                                    }
+                                }
+                                break;
+                    case "6": System.exit(0);
                     default:    try {
                                  invalidOption();
                                 } catch (RuntimeException e) {
@@ -78,9 +89,9 @@ public class BibliotecaApp {
     }
 
     private static boolean returnBook() {
-        System.out.print("Please enter the book isbn you want to return: ");
-        String isbn = scanner.nextLine();
-        return library.returnBook(isbn);
+        System.out.print("Please enter the isbn of the book you want to return: ");
+        String bookIsbn = scanner.nextLine();
+        return library.returnBook(bookIsbn);
     }
 
     static void unsuccessfulBookReturn() {
@@ -91,4 +102,15 @@ public class BibliotecaApp {
         List<Movie> movies = library.getMovies();
         library.list(movies);
     }
+
+    private static boolean checkOutMovie() {
+        System.out.print("Please enter the name of the movie you want to check out: ");
+        String movieName = scanner.nextLine();
+        return library.checkOutMovie(movieName);
+    }
+
+    static void unsuccessfulMovieCheckOut() {
+        throw new RuntimeException("Sorry, that movie is not available.");
+    }
+
 }

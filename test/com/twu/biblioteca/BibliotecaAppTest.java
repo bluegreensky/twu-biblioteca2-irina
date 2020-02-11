@@ -19,4 +19,9 @@ public class BibliotecaAppTest {
     public void testUnsuccessfulBookReturn() {
         BibliotecaApp.unsuccessfulBookReturn();
     }
+
+    @Test(expected = RuntimeException.class)
+    public void testUnsuccessfulMovieCheckOut() {
+        BibliotecaApp.unsuccessfulMovieCheckOut();
+    }
 }

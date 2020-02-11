@@ -26,6 +26,7 @@ public class Library {
         movies.add(new Movie("Bonnie and Clyde", 1967, "Arthur Penn", Movie.Rating.SEVEN, false));
         movies.add(new Movie("Reservoir Dogs", 1992, "Quentin Tarantino", Movie.Rating.UNRATED, false));
         movies.add(new Movie("Wall-E", 2008, "Andrew Stanton", Movie.Rating.TEN, true));
+        movies.add(new Movie("Wall-E", 2008, "Andrew Stanton", Movie.Rating.TEN, true));
     }
 
     public List<Book> getBooks() {
@@ -77,6 +78,27 @@ public class Library {
     private List<Book> getListOfBooksWithThisIsbn(String isbn) {
         return books.stream()
                 .filter(book -> book.getIsbn().equals(isbn))
+                .collect(Collectors.toList());
+    }
+
+    public boolean checkOutMovie(String name) {
+        Collection<Movie> listOfMoviesWithThisName = getListOfMoviesWithThisName(name);
+        if(listOfMoviesWithThisName.size() != 0) {
+            Optional<Movie> optionalMovie = listOfMoviesWithThisName.stream() // Find any unchecked movie
+                    .filter(movie -> !movie.isCheckedOut())
+                    .findAny();
+            if(optionalMovie.isPresent()){
+                Movie movieToCheckOut = optionalMovie.get();
+                movieToCheckOut.setCheckedOut(true);
+                return true; // We checked out the movie!
+            }
+        }
+        return false;
+    }
+
+    private List<Movie> getListOfMoviesWithThisName(String name) {
+        return movies.stream()
+                .filter(movie -> movie.getName().equals(name))
                 .collect(Collectors.toList());
     }
 }
