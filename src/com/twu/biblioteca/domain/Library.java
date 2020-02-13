@@ -46,15 +46,15 @@ public class Library {
         return movies;
     }
 
-    public void list(List<? extends Item> items) {
+    public String list(List<? extends Item> items) {
         String result = items.stream()
                 .filter(item -> !item.isCheckedOut())
                 .map(Item::toString)
                 .collect(Collectors.joining("; " + newLine));
-        System.out.println("Library{" + newLine + result + newLine + "}");
+        return result;
     }
 
-    public boolean checkOutBook(String isbn, User currentUser) {
+    public void checkOutBook(String isbn, User currentUser) {
         Collection<Book> listOfBooksWithThisIsbn = getListOfBooksWithThisIsbn(isbn);
         if(listOfBooksWithThisIsbn.size() != 0) {
             Optional<Book> optionalBook = listOfBooksWithThisIsbn.stream() // Find any unchecked book
@@ -65,13 +65,14 @@ public class Library {
                 bookToCheckOut.setCheckedOut(true);
                 List<Book> currentUserCheckedOutBooks = userBooksMap.get(currentUser);
                 currentUserCheckedOutBooks.add(bookToCheckOut);
-                return true; // We checked out the book!
+                System.out.println("Thank you! Enjoy the book."); // We checked out the book!
+                return;
             }
         }
-        return false;
+        throw new RuntimeException("Sorry, that book is not available.");
     }
 
-    public boolean returnBook(String isbn) {
+    public void returnBook(String isbn, User currentUser) {
         Collection<Book> listOfBooksWithThisIsbn = getListOfBooksWithThisIsbn(isbn);
         if(listOfBooksWithThisIsbn.size() != 0) {
             Optional<Book> optionalBook = listOfBooksWithThisIsbn.stream() // Find any checked out book
@@ -80,10 +81,13 @@ public class Library {
             if(optionalBook.isPresent()){
                 Book bookToReturn = optionalBook.get();
                 bookToReturn.setCheckedOut(false);
-                return true; // We returned the book!
+                List<Book> currentUserCheckedOutBooks = userBooksMap.get(currentUser);
+                currentUserCheckedOutBooks.remove(bookToReturn);
+                System.out.println("Thank you for returning the book!"); // We returned the book!
+                return;
             }
         }
-        return false;
+        throw new RuntimeException("That is not a valid book to return.");
     }
 
     private List<Book> getListOfBooksWithThisIsbn(String isbn) {
@@ -92,7 +96,7 @@ public class Library {
                 .collect(Collectors.toList());
     }
 
-    public boolean checkOutMovie(String name) {
+    public void checkOutMovie(String name) {
         Collection<Movie> listOfMoviesWithThisName = getListOfMoviesWithThisName(name);
         if(listOfMoviesWithThisName.size() != 0) {
             Optional<Movie> optionalMovie = listOfMoviesWithThisName.stream() // Find any unchecked movie
@@ -101,10 +105,11 @@ public class Library {
             if(optionalMovie.isPresent()){
                 Movie movieToCheckOut = optionalMovie.get();
                 movieToCheckOut.setCheckedOut(true);
-                return true; // We checked out the movie!
+                System.out.println("Thank you! Enjoy the movie."); // We checked out the movie!
+                return;
             }
         }
-        return false;
+        throw new RuntimeException("Sorry, that movie is not available.");
     }
 
     private List<Movie> getListOfMoviesWithThisName(String name) {

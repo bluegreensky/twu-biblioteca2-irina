@@ -10,6 +10,8 @@ import java.util.Scanner;
 
 public class BibliotecaApp {
 
+    private static final String newLine = System.getProperty("line.separator");
+
     private static Library library = new Library();
     private static Scanner scanner = new Scanner(System.in);
 
@@ -47,38 +49,26 @@ public class BibliotecaApp {
 
             switch (response) {
                 case "1":   listBooks(); break;
-                case "2":   if(checkOutBook(currentUser)) {
-                    System.out.println("Thank you! Enjoy the book.");
-                } else {
-                    try {
-                        unsuccessfulBookCheckOut();
-                    } catch (RuntimeException e) {
-                        System.out.println(e.getMessage());
-                    }
-                }
-                    break;
-                case "3":   if(returnBook()) {
-                    System.out.println("Thank you for returning the book!");
-                } else {
-                    try {
-                        unsuccessfulBookReturn();
-                    } catch (RuntimeException e) {
-                        System.out.println(e.getMessage());
-                    }
-                }
-                    break;
+                case "2":   try {
+                                checkOutBook(currentUser);
+                            } catch (RuntimeException e) {
+                                 System.out.println(e.getMessage());
+                            }
+                            break;
+                case "3":   try {
+                                returnBook(currentUser);
+                            } catch (RuntimeException e) {
+                                System.out.println(e.getMessage());
+                            }
+                            break;
                 case "4":   listMovies();
-                    break;
-                case "5":   if(checkOutMovie()) {
-                    System.out.println("Thank you! Enjoy the movie.");
-                } else {
-                    try {
-                        unsuccessfulMovieCheckOut();
-                    } catch (RuntimeException e) {
-                        System.out.println(e.getMessage());
-                    }
-                }
-                    break;
+                            break;
+                case "5":   try {
+                                checkOutMovie();
+                            } catch (RuntimeException e) {
+                                 System.out.println(e.getMessage());
+                            }
+                            break;
                 case "6":   viewMyInformation(currentUser);
                             break;
                 case "7":   System.exit(0);
@@ -87,10 +77,10 @@ public class BibliotecaApp {
                                 break;
                             }
                 default:    try {
-                    invalidOption();
-                } catch (RuntimeException e) {
-                    System.out.println(e.getMessage());
-                }
+                                invalidOption();
+                            } catch (RuntimeException e) {
+                                 System.out.println(e.getMessage());
+                            }
             }
 
         } while (true);
@@ -117,46 +107,35 @@ public class BibliotecaApp {
 
     private static void listBooks() {
         List<Book> books = library.getBooks();
-        library.list(books);
+        String result = library.list(books);
+        System.out.println("Library{" + newLine + result + newLine + "}");
     }
 
     static void invalidOption() {
         throw new RuntimeException("Please select a valid option!");
     }
 
-    private static boolean checkOutBook(User currentUser) {
+    private static void checkOutBook(User currentUser) {
         System.out.print("Please enter the book isbn you want to check out: ");
         String isbn = scanner.nextLine();
-        return library.checkOutBook(isbn, currentUser);
+        library.checkOutBook(isbn, currentUser);
     }
 
-    static void unsuccessfulBookCheckOut() {
-        throw new RuntimeException("Sorry, that book is not available.");
-    }
-
-    private static boolean returnBook() {
+    private static void returnBook(User currentUser) {
         System.out.print("Please enter the isbn of the book you want to return: ");
         String bookIsbn = scanner.nextLine();
-        return library.returnBook(bookIsbn);
-    }
-
-    static void unsuccessfulBookReturn() {
-        throw new RuntimeException("That is not a valid book to return.");
+        library.returnBook(bookIsbn, currentUser);
     }
 
     private static void listMovies() {
         List<Movie> movies = library.getMovies();
-        library.list(movies);
+        String result = library.list(movies);
+        System.out.println("Library{" + newLine + result + newLine + "}");
     }
 
-    private static boolean checkOutMovie() {
+    private static void checkOutMovie() {
         System.out.print("Please enter the name of the movie you want to check out: ");
         String movieName = scanner.nextLine();
-        return library.checkOutMovie(movieName);
+        library.checkOutMovie(movieName);
     }
-
-    static void unsuccessfulMovieCheckOut() {
-        throw new RuntimeException("Sorry, that movie is not available.");
-    }
-
 }
